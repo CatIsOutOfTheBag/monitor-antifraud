@@ -3,9 +3,11 @@
 ## _Использование инструментов: Prommetheus, Grafana_
 
 1. Процесс мониторинга модели начинается с написания модели в виде сервиса, предоставляющего клиенту предикт - app9.py
+
    У сервиса есть метод predict, возвращающий предсказание факта фрода по входной строке, генерируемой исходя из введенного в запросе числа
-   У сервиса так же имеется ручка metrics, собирающая значение количества предиктов класса ноль
-2. Для выполнения задания создана виртуальная машина, на ней установлены все необхдимые ресурсы:
+
+    У сервиса так же имеется ручка metrics, собирающая значение количества предиктов класса ноль
+3. Для выполнения задания создана виртуальная машина, на ней установлены все необхдимые ресурсы:
    - yc (https://cloud.yandex.ru/docs/cli/quickstart);
    - Docker (https://docs.docker.com/get-docker/);
    - Kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl/);
@@ -15,7 +17,7 @@
    - curl.
      
      Вход на ВМ осуществляется по ssh
-3. Настроена консольная утилита для работы с облаком
+4. Настроена консольная утилита для работы с облаком
    id каталога:
    ``` sh
    echo "export FOLDER_ID=folder-id-here" >> ~/.bashrc && . ~/.bashrc
@@ -26,7 +28,7 @@
      ``` sh
     yc compute instance list
      ```
-4. В Yandex Cloud развернут кластер Managed K8S с группой из 3х узлов. Кластер сконфигурирован:
+5. В Yandex Cloud развернут кластер Managed K8S с группой из 3х узлов. Кластер сконфигурирован:
     ``` sh
     yc managed-kubernetes cluster list
     echo "export K8S_ID=k8s-id-here" >> ~/.bashrc && . ~/.bashrc
@@ -40,18 +42,18 @@
     yc managed-kubernetes cluster get-credentials --id=$K8S_ID --external
     cat ~/.kube/config
     ```
-5. Создано Container Registry и сохранен id реестра
+6. Создано Container Registry и сохранен id реестра
      ``` sh
     echo "export REGISTRY_ID=registry-id-here" >> ~/.bashrc && . ~/.bashrc
     yc container registry list
     yc container registry get $REGISTRY_ID
     ```
-6. Настроена аутентификация в Docker
+7. Настроена аутентификация в Docker
     ``` sh
     yc container registry configure-docker
     cat ~/.docker/config.json
     ```
-7. Собран и загружен Docker-образ в Container Registry
+8. Собран и загружен Docker-образ в Container Registry
     Перейдя в директорию /monitor
      ``` sh
     sudo docker build . --tag cr.yandex/$REGISTRY_ID/lab-demo:v1
@@ -59,7 +61,7 @@
     docker push cr.yandex/$REGISTRY_ID/lab-demo:v1
     yc container image list
     ```
-8. Установлено prometheus-community
+9. Установлено prometheus-community
      ``` sh
     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
     helm repo update    
@@ -81,7 +83,7 @@
     Для сервиса
     ``` sh
     kubectl get pods
-    kubectl port-forward <titanic pods name> 8000:8000 -n default  --address 0.0.0.0
+    kubectl port-forward <pod name> 8000:8000 -n default  --address 0.0.0.0
     ```
 12. Скриншоты успешности вышеописанных этапов    
 Запуск контейнера
