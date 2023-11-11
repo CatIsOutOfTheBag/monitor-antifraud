@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anti-deployment
+  labels:
+    app: anti
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anti
+  template:
+    metadata:
+      labels:
+        app: anti
+    spec:
+      containers:
+        - name: anti
+          image: cr.yandex/crpngmsp9m389lasj5sv/lab-demo:v2
+          ports:
+            - containerPort: 8000

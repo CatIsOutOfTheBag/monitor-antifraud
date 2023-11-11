@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: default
+  labels:
+    release: monitoring
+  name: anti
+spec:
+  endpoints:
+
+  - path: /metrics
+    port: anti
+    scheme: http
+    interval: 10s
+
+  jobLabel: anti
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app: anti
